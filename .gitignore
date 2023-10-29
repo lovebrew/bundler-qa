@@ -1,0 +1,9 @@
+.venv
+bin
+__pycache__
+downloads/
+*.log
+screenshots/
+logs/
+.pytest_cache
+config.toml
