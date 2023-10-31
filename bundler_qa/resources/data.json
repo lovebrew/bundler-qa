@@ -13,5 +13,7 @@
   ],
   "validTextures": ["dio.jpg", "lenny.png"],
   "invalidFonts": ["arial.fnt"],
-  "validFonts": ["Oneday.otf", "Perfect DOS VGA 437.ttf"]
+  "validFonts": ["Oneday.otf", "Perfect DOS VGA 437.ttf"],
+  "missingConfigs": ["content-no-config.zip", "empty.zip"],
+  "validContentBundles": ["content.zip", "content-missing-icon.zip"]
 }

@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
 
+import re
 import logging
 
 
@@ -20,14 +21,18 @@ class WebPage:
     def __init__(self, driver: Driver):
         self.driver = driver
 
-    def validate_toast(self, success: bool, message: str) -> Self:
+    def __find_toast__(self, success: bool) -> str:
         toast = self.SuccessToast if success else self.ErrorToast
-        wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, toast)))
+        wait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, toast)))
 
-        toast_element = self.driver.find(By.XPATH, toast)
+        return self.driver.find(By.XPATH, toast)
+
+    def validate_toast(self, success: bool, message: str) -> Self:
+        toast = self.__find_toast__(success)
+
         assert (
-            message in toast_element.text
-        ), f"Expected Toast message '{message}', got '{toast_element.text}'"
+            message in toast.text
+        ), f"Expected Toast message '{message}', got '{toast.text}'"
 
         return self
 

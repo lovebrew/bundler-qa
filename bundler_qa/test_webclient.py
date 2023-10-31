@@ -82,9 +82,7 @@ class TestWebclient:
     def test_invalid_texture_upload(self, filename: str, driver: Driver):
         home_page = WebPage(driver)
 
-        home_page.upload_file(filename).validate_toast(
-            False, f"Image {filename} is invalid!"
-        )
+        home_page.upload_file(filename).validate_toast(False, "Invalid file type.")
 
     @pytest.mark.parametrize("filename", test_data["validFonts"])
     def test_valid_font_upload(self, filename: str, driver: Driver):
@@ -97,13 +95,33 @@ class TestWebclient:
     def test_invalid_font_upload(self, filename: str, driver: Driver):
         home_page = WebPage(driver)
 
-        home_page.upload_file(filename).validate_toast(
-            False, f"Font {filename} is invalid!"
-        )
+        home_page.upload_file(filename).validate_toast(False, "Invalid file type.")
 
     def test_empty_file_upload(self, driver: Driver):
         home_page = WebPage(driver)
 
-        home_page.upload_file("emptyfile").validate_toast(
-            False, "Invalid file 'emptyfile'!"
+        home_page.upload_file("emptyfile").validate_toast(False, "Invalid file.")
+
+    @pytest.mark.parametrize("filename", test_data["missingConfigs"])
+    def test_missing_config_upload(self, filename: str, driver: Driver):
+        home_page = WebPage(driver)
+
+        home_page.upload_file(filename).validate_toast(
+            False, "Missing configuration file."
+        )
+
+    def test_missing_game_folder(self, driver: Driver):
+        home_page = WebPage(driver)
+
+        home_page.upload_file("content-no-game.zip").validate_toast(
+            False, "Source folder 'game' not found."
+        )
+
+    @pytest.mark.parametrize("filename", test_data["validContentBundles"])
+    def test_valid_content_bundle_upload(self, filename: str, driver: Driver):
+        home_page = WebPage(driver)
+
+        home_page.upload_file(filename).validate_toast(True, "Downloaded")
+        home_page.validate_latest_bundle(
+            ["SuperGame.3dsx", "SuperGame.nro", "SuperGame.wuhb"]
         )
