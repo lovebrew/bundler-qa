@@ -31,7 +31,7 @@ class Driver:
             handlers=[
                 logging.StreamHandler(sys.stdout),
                 logging.FileHandler(
-                    f"bundler_qa-{datetime.datetime.now().timestamp()}.log"
+                    f"{Driver.LOG_DIR}/bundler_qa-{datetime.datetime.now().timestamp()}.log"
                 ),
             ],
             force=True,

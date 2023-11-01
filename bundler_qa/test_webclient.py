@@ -125,3 +125,31 @@ class TestWebclient:
         home_page.validate_latest_bundle(
             ["SuperGame.3dsx", "SuperGame.nro", "SuperGame.wuhb"]
         )
+
+    def test_corrupt_image_upload(self, driver: Driver):
+        home_page = WebPage(driver)
+
+        home_page.upload_file("corrupt.png").validate_toast(
+            False, "Image corrupt.png is invalid!"
+        )
+
+    def test_corrupt_font_upload(self, driver: Driver):
+        home_page = WebPage(driver)
+
+        home_page.upload_file("corrupt.ttf").validate_toast(
+            False, "Font corrupt.ttf is invalid!"
+        )
+
+    def test_corrupt_png_in_zip_upload(self, driver: Driver):
+        home_page = WebPage(driver)
+
+        home_page.upload_file("content-corrupt-png.zip").validate_toast(
+            False, "Image corrupt.png is invalid!"
+        )
+
+    def test_corrupt_ttf_in_zip_upload(self, driver: Driver):
+        home_page = WebPage(driver)
+
+        home_page.upload_file("content-corrupt-ttf.zip").validate_toast(
+            False, "Font corrupt.ttf is invalid!"
+        )
